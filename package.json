@@ -1,1 +1,10 @@
-{"name":"house-hunt-planner","private":true,"type":"module","scripts":{"test":"node --test tests/"},"license":"MIT"}
+{
+  "name": "house-hunt-planner",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/",
+    "build:boundaries": "node scripts/build-boundaries.mjs"
+  },
+  "license": "MIT"
+}
