@@ -188,6 +188,10 @@ input[type="range"] { width: 100%; min-height: 44px; accent-color: var(--accent)
 .area-map .maplibregl-ctrl.maplibregl-ctrl-attrib { background: var(--surface); color: var(--text); }
 .area-map .maplibregl-ctrl-attrib a { color: var(--text); }
 #map-status { margin: .5rem 0 0; }
+.city-pick { display: grid; gap: .3rem; margin-bottom: 1rem; }
+.city-pick label { font-weight: 600; }
+.city-pick select { max-width: 24rem; }
+.city-pick p { margin: 0; }
 
 .site-footer { border-top: 1px solid var(--border); margin-top: 2rem; padding: 1.5rem 0 2.5rem; background: var(--surface); }
 .site-footer p { margin: .25rem 0; }

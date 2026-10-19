@@ -46,8 +46,14 @@ function addBoundaries(map, data) {
   const kind = (k) => ['==', ['get', 'kind'], k];
 
   map.addSource('boundaries', { type: 'geojson', data, attribution: BOUNDARIES_ATTRIBUTION });
+  // Invisible fill so a click anywhere inside a city selects it.
+  map.addLayer({ id: 'city-fill', type: 'fill', source: 'boundaries', filter: kind('city'), paint: { 'fill-color': line, 'fill-opacity': 0 } });
   map.addLayer({ id: 'county-line', type: 'line', source: 'boundaries', filter: kind('county'), paint: { 'line-color': line, 'line-width': 2.5, 'line-opacity': 0.9 } });
   map.addLayer({ id: 'city-line', type: 'line', source: 'boundaries', filter: kind('city'), paint: { 'line-color': line, 'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.6, 13, 1.6], 'line-dasharray': [3, 2] } });
+  map.addLayer({
+    id: 'city-selected', type: 'line', source: 'boundaries', filter: ['all', kind('city'), ['==', ['get', 'name'], selectedCity()]],
+    paint: { 'line-color': cssVar('--accent'), 'line-width': 3 },
+  });
   map.addLayer({
     id: 'city-label', type: 'symbol', source: 'boundaries', filter: kind('city-label'),
     layout: { 'text-field': ['get', 'name'], 'text-font': ['Noto Sans Regular'], 'text-size': ['interpolate', ['linear'], ['zoom'], 8, 10, 13, 15], 'text-max-width': 7 },
@@ -82,6 +88,14 @@ function countyBounds(data) {
     }
   }
   return [[minX, minY], [maxX, maxY]];
+}
+
+const citySelect = document.getElementById('taxCity');
+const selectedCity = () => citySelect?.value || '';
+
+function highlightCity(map, name) {
+  if (!map.getLayer('city-selected')) return;
+  map.setFilter('city-selected', ['all', ['==', ['get', 'kind'], 'city'], ['==', ['get', 'name'], name || '']]);
 }
 
 async function init() {
@@ -127,6 +141,17 @@ async function init() {
       map.fitBounds(countyBounds(data), { padding: 12, animate: false });
     }
   });
+
+  // Clicking a city picks it in the tax select, which app.js listens to.
+  map.on('click', 'city-fill', (e) => {
+    const name = e.features[0]?.properties.name;
+    if (!name || !citySelect || citySelect.disabled) return;
+    citySelect.value = name;
+    citySelect.dispatchEvent(new Event('change'));
+  });
+  map.on('mouseenter', 'city-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
+  map.on('mouseleave', 'city-fill', () => { map.getCanvas().style.cursor = ''; });
+  document.addEventListener('hhp:tax-city', (e) => highlightCity(map, e.detail.name));
 
   let loaded = false;
   const timer = setTimeout(() => { if (!loaded) { map.remove(); fail('map tiles timed out'); } }, LOAD_TIMEOUT_MS);

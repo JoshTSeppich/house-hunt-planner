@@ -1,0 +1,225 @@
+{
+  "source": "Utah State Tax Commission, Property Tax Division: Report 600, Tax Rates by Tax Area",
+  "sourceUrl": "https://files.tax.utah.gov/propertytax/tax-rates/area-rates/taxarearates2025.pdf",
+  "taxYear": 2025,
+  "reportDate": "January 05, 2026",
+  "note": "Levies are final adopted totals applied to taxable value. Primary residences are taxed on 55% of market value.",
+  "cities": {
+    "Bountiful": {
+      "county": "Davis",
+      "taxAreas": 7,
+      "medianLevy": 0.010102,
+      "minLevy": 0.010043,
+      "maxLevy": 0.010222
+    },
+    "Centerville": {
+      "county": "Davis",
+      "taxAreas": 9,
+      "medianLevy": 0.010454,
+      "minLevy": 0.010109,
+      "maxLevy": 0.010513
+    },
+    "Clearfield": {
+      "county": "Davis",
+      "taxAreas": 10,
+      "medianLevy": 0.011159,
+      "minLevy": 0.011159,
+      "maxLevy": 0.011159
+    },
+    "Clinton": {
+      "county": "Davis",
+      "taxAreas": 3,
+      "medianLevy": 0.0104,
+      "minLevy": 0.01008,
+      "maxLevy": 0.010594
+    },
+    "Farmington": {
+      "county": "Davis",
+      "taxAreas": 10,
+      "medianLevy": 0.009977,
+      "minLevy": 0.00983,
+      "maxLevy": 0.010124
+    },
+    "Farr West": {
+      "county": "Weber",
+      "taxAreas": 8,
+      "medianLevy": 0.010366,
+      "minLevy": 0.009772,
+      "maxLevy": 0.01046
+    },
+    "Fruit Heights": {
+      "county": "Davis",
+      "taxAreas": 3,
+      "medianLevy": 0.010101,
+      "minLevy": 0.009887,
+      "maxLevy": 0.010181
+    },
+    "Harrisville": {
+      "county": "Weber",
+      "taxAreas": 8,
+      "medianLevy": 0.01164,
+      "minLevy": 0.011495,
+      "maxLevy": 0.011677
+    },
+    "Hooper": {
+      "county": "Weber",
+      "taxAreas": 23,
+      "medianLevy": 0.009929,
+      "minLevy": 0.0095,
+      "maxLevy": 0.010469
+    },
+    "Huntsville": {
+      "county": "Weber",
+      "taxAreas": 1,
+      "medianLevy": 0.010018,
+      "minLevy": 0.010018,
+      "maxLevy": 0.010018
+    },
+    "Kaysville": {
+      "county": "Davis",
+      "taxAreas": 6,
+      "medianLevy": 0.009732,
+      "minLevy": 0.009625,
+      "maxLevy": 0.009919
+    },
+    "Layton": {
+      "county": "Davis",
+      "taxAreas": 6,
+      "medianLevy": 0.009527,
+      "minLevy": 0.009313,
+      "maxLevy": 0.009527
+    },
+    "Marriott-Slaterville": {
+      "county": "Weber",
+      "taxAreas": 16,
+      "medianLevy": 0.010093,
+      "minLevy": 0.009553,
+      "maxLevy": 0.011094
+    },
+    "North Ogden": {
+      "county": "Weber",
+      "taxAreas": 10,
+      "medianLevy": 0.011302,
+      "minLevy": 0.010725,
+      "maxLevy": 0.011447
+    },
+    "North Salt Lake": {
+      "county": "Davis",
+      "taxAreas": 8,
+      "medianLevy": 0.010109,
+      "minLevy": 0.010109,
+      "maxLevy": 0.010229
+    },
+    "Ogden": {
+      "county": "Weber",
+      "taxAreas": 26,
+      "medianLevy": 0.012402,
+      "minLevy": 0.011256,
+      "maxLevy": 0.01277
+    },
+    "Plain City": {
+      "county": "Weber",
+      "taxAreas": 14,
+      "medianLevy": 0.008779,
+      "minLevy": 0.008601,
+      "maxLevy": 0.009286
+    },
+    "Pleasant View": {
+      "county": "Weber",
+      "taxAreas": 14,
+      "medianLevy": 0.010819,
+      "minLevy": 0.010188,
+      "maxLevy": 0.01091
+    },
+    "Riverdale": {
+      "county": "Weber",
+      "taxAreas": 13,
+      "medianLevy": 0.010279,
+      "minLevy": 0.010059,
+      "maxLevy": 0.010323
+    },
+    "Roy": {
+      "county": "Weber",
+      "taxAreas": 29,
+      "medianLevy": 0.010307,
+      "minLevy": 0.009987,
+      "maxLevy": 0.010527
+    },
+    "South Ogden": {
+      "county": "Weber",
+      "taxAreas": 9,
+      "medianLevy": 0.01132,
+      "minLevy": 0.01078,
+      "maxLevy": 0.011688
+    },
+    "South Weber": {
+      "county": "Davis",
+      "taxAreas": 4,
+      "medianLevy": 0.009768,
+      "minLevy": 0.009498,
+      "maxLevy": 0.010038
+    },
+    "Sunset": {
+      "county": "Davis",
+      "taxAreas": 1,
+      "medianLevy": 0.010963,
+      "minLevy": 0.010963,
+      "maxLevy": 0.010963
+    },
+    "Syracuse": {
+      "county": "Davis",
+      "taxAreas": 9,
+      "medianLevy": 0.010365,
+      "minLevy": 0.010045,
+      "maxLevy": 0.010365
+    },
+    "Uintah": {
+      "county": "Weber",
+      "taxAreas": 4,
+      "medianLevy": 0.01013,
+      "minLevy": 0.009946,
+      "maxLevy": 0.010486
+    },
+    "Washington Terrace": {
+      "county": "Weber",
+      "taxAreas": 5,
+      "medianLevy": 0.010532,
+      "minLevy": 0.010532,
+      "maxLevy": 0.010532
+    },
+    "West Bountiful": {
+      "county": "Davis",
+      "taxAreas": 5,
+      "medianLevy": 0.010622,
+      "minLevy": 0.010622,
+      "maxLevy": 0.010681
+    },
+    "West Haven": {
+      "county": "Weber",
+      "taxAreas": 26,
+      "medianLevy": 0.009992,
+      "minLevy": 0.009408,
+      "maxLevy": 0.010206
+    },
+    "West Point": {
+      "county": "Davis",
+      "taxAreas": 5,
+      "medianLevy": 0.010671,
+      "minLevy": 0.010351,
+      "maxLevy": 0.010865
+    },
+    "Woods Cross": {
+      "county": "Davis",
+      "taxAreas": 15,
+      "medianLevy": 0.010705,
+      "minLevy": 0.010646,
+      "maxLevy": 0.010825
+    }
+  },
+  "noCityLevy": [
+    {
+      "name": "Ogden Valley City",
+      "county": "Weber"
+    }
+  ]
+}
