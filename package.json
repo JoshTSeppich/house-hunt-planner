@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "test": "node --test tests/",
-    "build:boundaries": "node scripts/build-boundaries.mjs"
+    "build:boundaries": "node scripts/build-boundaries.mjs",
+    "build:tax-rates": "node scripts/build-tax-rates.mjs"
   },
   "license": "MIT"
 }

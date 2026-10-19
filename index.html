@@ -106,7 +106,7 @@
       <details class="assumptions">
         <summary>Assumptions</summary>
         <div class="grid-inputs">
-          <label>Property tax (% of price per year)<input id="taxRate" type="number" step="0.05" min="0"><small>Weber and Davis County homes often land near 0.5–0.7%.</small></label>
+          <label>Property tax (% of price per year)<input id="taxRate" type="number" step="0.01" min="0"><small id="tax-note">Weber and Davis County homes often land near 0.5–0.7%. Pick a city in section 6 to use its rate.</small></label>
           <label>Homeowners insurance (% of price per year)<input id="insRate" type="number" step="0.05" min="0"></label>
           <label>HOA dues (per month)<span class="money"><input id="hoa" type="number" step="10" min="0"></span></label>
           <label>Home value growth (% per year)<input id="appreciation" type="number" step="0.5"><small>Used only for the equity chart. Values can also fall.</small></label>
@@ -127,7 +127,12 @@
 
     <section class="card" aria-labelledby="map-h">
       <h2 id="map-h">6. Weber and Davis County</h2>
-      <p class="muted">Get your bearings. Drag or use the arrow keys to pan, and the +/− buttons or keys to zoom.</p>
+      <p class="muted">Get your bearings. Drag or use the arrow keys to pan, and the +/− buttons or keys to zoom. Pick a city, or click one on the map, to use its property tax rate.</p>
+      <div class="city-pick">
+        <label for="taxCity">City for property tax</label>
+        <select id="taxCity"><option value="">None: use my own rate</option></select>
+        <p id="city-tax-note" class="muted small" aria-live="polite"></p>
+      </div>
       <div id="area-map" class="area-map"></div>
       <p id="map-status" class="muted small" role="status">Loading map…</p>
     </section>

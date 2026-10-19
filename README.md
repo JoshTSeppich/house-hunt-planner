@@ -16,6 +16,7 @@ Built for first-time buyers in Weber and Davis County, Utah. The defaults (tax r
 - **What-if sliders:** rate, price and down payment update everything live. Conventional or FHA.
 - **Equity timeline:** home value, loan balance and equity over 30 years, with 5- and 10-year markers and the month PMI drops off.
 - **Area map:** Weber and Davis County with city and county outlines (MapLibre GL JS with OpenFreeMap tiles, no API key).
+- **City property tax:** pick a city, or click it on the map, to use its published property tax rate. You can still type your own.
 - Light and dark themes, mobile-first, keyboard accessible and respects reduced-motion settings.
 
 ## Privacy
@@ -58,13 +59,21 @@ The tests check the mortgage math in `js/mortgage.js` against published referenc
 | --- | --- | --- |
 | City and county boundaries (`data/boundaries.geojson`) | [Utah Geospatial Resource Center (UGRC)](https://gis.utah.gov/): Utah Municipal Boundaries and Utah County Boundaries | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | Base map tiles | [OpenFreeMap](https://openfreemap.org/), © [OpenMapTiles](https://www.openmaptiles.org/), data © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors | ODbL (data) |
+| City property tax rates (`data/tax-rates.json`) | [Utah State Tax Commission, Report 600: Tax Rates by Tax Area](https://files.tax.utah.gov/propertytax/tax-rates/area-rates/taxarearates2025.pdf), 2025 final adopted rates | Public record |
 | Default mortgage rate | [Freddie Mac PMMS](https://www.freddiemac.com/pmms) | Public |
 
-The boundaries are simplified (about 22 m tolerance) for size, so treat them as approximate. To refresh them:
+The boundaries are simplified (about 22 m tolerance) for size, so treat them as approximate.
+
+Each city spans several tax areas (different mixes of school, fire, water and other districts). The city default is the median final adopted total across those areas, times 55% because Utah taxes a primary residence on 55% of its value. The app shows the range too. Ogden Valley City has no city levy in the 2025 report, so it has no default.
+
+To refresh the data:
 
 ```bash
 npm run build:boundaries
+npm run build:tax-rates   # needs pdftotext: brew install poppler
 ```
+
+Update `YEAR` in `scripts/build-tax-rates.mjs` when the Tax Commission posts a new report (usually in January).
 
 ## Project layout
 
@@ -74,7 +83,8 @@ css/styles.css      Sage and Sand theme
 js/mortgage.js      pure mortgage math (no DOM)
 js/app.js           UI wiring
 js/map.js           lazy-loaded MapLibre area map
-data/               boundaries GeoJSON (generated)
+js/tax.js           pure property-tax helpers
+data/               boundaries and tax-rate data (generated)
 scripts/            data build scripts
 tests/              node:test suite
 docs/ROADMAP.md     phased plan

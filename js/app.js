@@ -5,12 +5,14 @@ import {
   rateForCredit,
   totalMonthlyCost,
 } from './mortgage.js';
+import { cityTaxDefault } from './tax.js';
 
 // Editable default. Update both values together.
 const MARKET_RATE = 7.4; // Freddie Mac PMMS 30-year fixed average
 const MARKET_RATE_DATE = 'Oct 15, 2026';
 const CLOSING_COST_RATE = 0.03;
 const STORAGE_KEY = 'hhp-state-v1';
+const TAX_DATA_URL = 'data/tax-rates.json';
 
 const DEFAULTS = {
   takeHome: 6000,
@@ -23,6 +25,8 @@ const DEFAULTS = {
   down: null,
   loanType: 'conventional',
   taxRate: 0.6,
+  taxCity: '', // city whose published rate set taxRate
+  taxCustom: false, // true once the user edits taxRate by hand
   insRate: 0.35,
   hoa: 0,
   appreciation: 3,
@@ -33,6 +37,7 @@ const usd = (n) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD
 const pct = (n, d = 0) => `${(n * 100).toFixed(d)}%`;
 
 let state = load();
+let taxData = null;
 
 function load() {
   try {
@@ -216,6 +221,7 @@ function render(tiers = computeTiers()) {
   renderPayment(cost);
   renderSliders(cost);
   renderEquity();
+  renderTaxNotes();
   save();
 }
 
@@ -228,6 +234,7 @@ function initInputs() {
     el.addEventListener('input', () => {
       const v = parseFloat(el.value);
       state[key] = Number.isFinite(v) ? Math.max(key === 'appreciation' ? -20 : 0, v) : 0;
+      if (key === 'taxRate' && state.taxCity) state.taxCustom = true;
       const tiers = computeTiers();
       if (profileFields.has(key)) applyTier(tiers);
       render(tiers);
@@ -255,6 +262,75 @@ function initInputs() {
   }));
 }
 
+function renderTaxNotes() {
+  const cityNote = $('city-tax-note');
+  const taxNote = $('tax-note');
+  const d = taxData && state.taxCity ? cityTaxDefault(taxData, state.taxCity) : null;
+  $('taxCity').value = state.taxCity;
+  if (!state.taxCity) {
+    cityNote.textContent = '';
+    taxNote.textContent = 'Weber and Davis County homes often land near 0.5–0.7%. Pick a city in section 6 to use its rate.';
+    return;
+  }
+  if (!taxData) {
+    cityNote.textContent = "City tax rates couldn't load, so your own rate is used.";
+    taxNote.textContent = cityNote.textContent;
+    return;
+  }
+  if (!d) {
+    cityNote.textContent = `${state.taxCity} isn't in the ${taxData.taxYear} state tax-rate report, so the current rate (${state.taxRate}%) stays. You can edit it under Assumptions.`;
+    taxNote.textContent = cityNote.textContent;
+    return;
+  }
+  const range = d.minPct === d.maxPct ? '' : ` It ranges from ${d.minPct}% to ${d.maxPct}% depending on the exact address.`;
+  const source = `Typical ${d.taxYear} rate across ${d.taxAreas} tax area${d.taxAreas === 1 ? '' : 's'}, from the Utah State Tax Commission. Homes you live in are taxed on 55% of value.`;
+  if (state.taxCustom) {
+    cityNote.innerHTML = `You set property tax to ${state.taxRate}%. ${state.taxCity}'s typical rate is ${d.ratePct}%. <button type="button" class="link" id="tax-use-city">Use ${d.ratePct}%</button>`;
+    $('tax-use-city').addEventListener('click', () => selectTaxCity(state.taxCity));
+  } else {
+    cityNote.textContent = `Property tax set to ${d.ratePct}% of price for ${d.name}.${range} ${source}`;
+  }
+  taxNote.textContent = state.taxCustom ? `Your own rate. ${state.taxCity}'s typical rate is ${d.ratePct}%.` : `From ${d.name} (${d.taxYear} rates). Edit to override.`;
+}
+
+function selectTaxCity(name) {
+  state.taxCity = name;
+  state.taxCustom = false;
+  const d = taxData && name ? cityTaxDefault(taxData, name) : null;
+  if (d) {
+    state.taxRate = d.ratePct;
+    $('taxRate').value = d.ratePct;
+  }
+  const tiers = computeTiers();
+  render(tiers);
+  document.dispatchEvent(new CustomEvent('hhp:tax-city', { detail: { name } }));
+}
+
+async function initTaxCities() {
+  try {
+    const res = await fetch(TAX_DATA_URL);
+    if (res.ok) taxData = await res.json();
+  } catch (e) { /* offline or missing: fall back to the user's own rate */ }
+  const select = $('taxCity');
+  if (taxData) {
+    const byCounty = {};
+    for (const [name, c] of Object.entries(taxData.cities)) (byCounty[c.county] ??= []).push(name);
+    for (const { name, county } of taxData.noCityLevy || []) (byCounty[county] ??= []).push(name);
+    for (const county of Object.keys(byCounty).sort()) {
+      const group = document.createElement('optgroup');
+      group.label = `${county} County`;
+      for (const name of byCounty[county].sort()) group.append(new Option(name, name));
+      select.append(group);
+    }
+  } else {
+    select.disabled = true;
+  }
+  select.addEventListener('change', () => selectTaxCity(select.value));
+  // Refresh a saved city's rate in case the data was updated since.
+  if (state.taxCity && !state.taxCustom) selectTaxCity(state.taxCity);
+  else { renderTaxNotes(); document.dispatchEvent(new CustomEvent('hhp:tax-city', { detail: { name: state.taxCity } })); }
+}
+
 function initTheme() {
   const btn = $('theme-toggle');
   const current = () => document.documentElement.dataset.theme
@@ -272,6 +348,7 @@ function initTheme() {
 initTheme();
 initInputs();
 render();
+initTaxCities();
 
 let resizeTimer;
 addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(renderEquity, 150); });
