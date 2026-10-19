@@ -15,11 +15,12 @@ Built for first-time buyers in Weber and Davis County, Utah. The defaults (tax r
 - **Payment breakdown:** the full monthly number with a stacked bar for principal, interest, property tax, insurance and PMI/MIP.
 - **What-if sliders:** rate, price and down payment update everything live. Conventional or FHA.
 - **Equity timeline:** home value, loan balance and equity over 30 years, with 5- and 10-year markers and the month PMI drops off.
+- **Area map:** a base map of Weber and Davis County (MapLibre GL JS with OpenFreeMap tiles, no API key).
 - Light and dark themes, mobile-first, keyboard accessible and respects reduced-motion settings.
 
 ## Privacy
 
-There is no backend, no account, no analytics and no cookies. Everything is calculated in your browser. Your inputs are saved only in your browser's `localStorage` so they're there next time; clear site data to erase them. The only third-party request is for fonts from Google Fonts.
+There is no backend, no account, no analytics and no cookies. Everything is calculated in your browser. Your inputs are saved only in your browser's `localStorage` so they're there next time; clear site data to erase them. Third-party requests are limited to fonts from Google Fonts and, once you scroll to the map, the MapLibre library (unpkg) and map tiles (OpenFreeMap). None of them receive your numbers.
 
 ## Disclaimer
 
@@ -58,6 +59,7 @@ index.html          the page
 css/styles.css      Sage and Sand theme
 js/mortgage.js      pure mortgage math (no DOM)
 js/app.js           UI wiring
+js/map.js           lazy-loaded MapLibre area map
 tests/              node:test suite
 docs/ROADMAP.md     phased plan
 ```
