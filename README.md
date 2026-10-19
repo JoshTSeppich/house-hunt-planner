@@ -15,7 +15,7 @@ Built for first-time buyers in Weber and Davis County, Utah. The defaults (tax r
 - **Payment breakdown:** the full monthly number with a stacked bar for principal, interest, property tax, insurance and PMI/MIP.
 - **What-if sliders:** rate, price and down payment update everything live. Conventional or FHA.
 - **Equity timeline:** home value, loan balance and equity over 30 years, with 5- and 10-year markers and the month PMI drops off.
-- **Area map:** a base map of Weber and Davis County (MapLibre GL JS with OpenFreeMap tiles, no API key).
+- **Area map:** Weber and Davis County with city and county outlines (MapLibre GL JS with OpenFreeMap tiles, no API key).
 - Light and dark themes, mobile-first, keyboard accessible and respects reduced-motion settings.
 
 ## Privacy
@@ -52,6 +52,20 @@ npm test
 
 The tests check the mortgage math in `js/mortgage.js` against published reference values and an independent closed-form amortization formula.
 
+## Data sources
+
+| Data | Source | License |
+| --- | --- | --- |
+| City and county boundaries (`data/boundaries.geojson`) | [Utah Geospatial Resource Center (UGRC)](https://gis.utah.gov/): Utah Municipal Boundaries and Utah County Boundaries | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| Base map tiles | [OpenFreeMap](https://openfreemap.org/), © [OpenMapTiles](https://www.openmaptiles.org/), data © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors | ODbL (data) |
+| Default mortgage rate | [Freddie Mac PMMS](https://www.freddiemac.com/pmms) | Public |
+
+The boundaries are simplified (about 22 m tolerance) for size, so treat them as approximate. To refresh them:
+
+```bash
+npm run build:boundaries
+```
+
 ## Project layout
 
 ```
@@ -60,6 +74,8 @@ css/styles.css      Sage and Sand theme
 js/mortgage.js      pure mortgage math (no DOM)
 js/app.js           UI wiring
 js/map.js           lazy-loaded MapLibre area map
+data/               boundaries GeoJSON (generated)
+scripts/            data build scripts
 tests/              node:test suite
 docs/ROADMAP.md     phased plan
 ```
